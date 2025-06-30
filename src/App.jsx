@@ -10,8 +10,7 @@ import store from './utils/store';
 import WatchPage from './components/WatchPage';
 import Feed from './components/Feed';
 import Results from './components/Results';
-
-
+import Login from './components/Login';
 
 function App() {
 
@@ -24,7 +23,7 @@ function App() {
         children: [
           { path: "/results", element: <Results />},
         ]
-       },
+      },
       { path: "/feed", 
         element: <Feed />,
         children: [
@@ -34,7 +33,8 @@ function App() {
           { path: "/feed/you", element: <You /> },
         ],
       },
-      { path: "/watch", element: <WatchPage />}
+      { path: "/watch", element: <WatchPage />},
+      { path: "/login", element: <Login />}
     ],
   },
 

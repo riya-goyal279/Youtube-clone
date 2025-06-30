@@ -4,7 +4,10 @@ import { IoMdMic } from "react-icons/io";
 import HeaderLeft from "./HeaderLeft";
 import { AUTOCOMPLETE_API } from "../utils/constants";
 import { useEffect, useRef, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { HiOutlineUserCircle } from "react-icons/hi2";
+
 
 const Header = () => {
     const [searchInput, setSearchInput] = useState("");
@@ -16,6 +19,8 @@ const Header = () => {
     const debounceRef = useRef();
 
     const wrapperRef = useRef(null);
+
+    const isLoggedIn = useSelector(store => store.auth.isLoggedIn);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -99,28 +104,34 @@ const Header = () => {
                     <IoMdMic size={24} />
                 </button>
             </div>
-            <div className='flex items-center'>
-                {/* 
-                    -Logout
-                        -options
-                        -sign in button
-                */}
-                <button type="button" title="search" className="flex items-center bg-black/5 hover:bg-black/10 px-2 rounded-full h-10 mr-2 cursor-pointer md:hidden">
-                    <CiSearch size={24}/>
-                </button>
-                <button type="button" title="create" className="flex items-center bg-black/5 hover:bg-black/10 lg:pr-4 lg:pl-2.5 px-2 rounded-full lg:rounded-2xl h-10 lg:h-9 mr-2 cursor-pointer">
-                    <GoPlus size={24} className="lg:mr-1.5"/>
-                    <span className="text-[14px] text-[#0f0f0f] font-medium hidden lg:inline">Create</span>
-                </button>
-                <button title="Notifications" className="h-10 w-10 rounded-full hover:bg-black/10 flex items-center justify-center">
-                    <CiBellOn size={24} />
-                </button>
-                <div className="w-12 flex justify-center">
-                    <button type="button" title="user" className="h-8 w-8 rounded-full overflow-hidden cursor-pointer">
-                        <img src="https://yt3.ggpht.com/yti/ANjgQV8puFdSfDJ5gX78enlhYOdMljI2x8gry7yIXQzN3Pg=s88-c-k-c0x00ffffff-no-rj" alt="user" className="w-full h-full"/>
+            {
+                !isLoggedIn && 
+                <Link to="/login" className="flex items-center h-10 px-3 border border-gray-300 rounded-4xl cursor-pointer ml-6 text-blue-500">
+                    <HiOutlineUserCircle size={28}/>
+                    <span className="ml-2 font-medium">Sign in</span>
+                </Link>
+            }
+            {
+                isLoggedIn && 
+                <div className='flex items-center'>
+                    <button type="button" title="search" className="flex items-center bg-black/5 hover:bg-black/10 px-2 rounded-full h-10 mr-2 cursor-pointer md:hidden">
+                        <CiSearch size={24}/>
                     </button>
+                    <button type="button" title="create" className="flex items-center bg-black/5 hover:bg-black/10 lg:pr-4 lg:pl-2.5 px-2 rounded-full lg:rounded-2xl h-10 lg:h-9 mr-2 cursor-pointer">
+                        <GoPlus size={24} className="lg:mr-1.5"/>
+                        <span className="text-[14px] text-[#0f0f0f] font-medium hidden lg:inline">Create</span>
+                    </button>
+                    <button title="Notifications" className="h-10 w-10 rounded-full hover:bg-black/10 flex items-center justify-center">
+                        <CiBellOn size={24} />
+                    </button>
+                    <div className="w-12 flex justify-center">
+                        <button type="button" title="user" className="h-8 w-8 rounded-full overflow-hidden cursor-pointer">
+                            <img src="https://yt3.ggpht.com/yti/ANjgQV8puFdSfDJ5gX78enlhYOdMljI2x8gry7yIXQzN3Pg=s88-c-k-c0x00ffffff-no-rj" alt="user" className="w-full h-full"/>
+                        </button>
+                    </div>
                 </div>
-            </div>
+            }
+            
         </section>
     )
 }
